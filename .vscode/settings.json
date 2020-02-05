@@ -1,0 +1,20 @@
+{
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "cSpell.words": [
+    "Fakher",
+    "Hyyan",
+    "maxlength",
+    "prevalue"
+  ],
+  "liveServer.settings.port": 5502,
+  "bbj.bui.apps": {
+    "Untitled-1.txt2.bbj": {
+      "name": "Untitled-1.txt2",
+      "style": ""
+    },
+    "Untitled-1.txt.bbj": {
+      "name": "Untitled-1.txt",
+      "style": ""
+    }
+  }
+}

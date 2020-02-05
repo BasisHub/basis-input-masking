@@ -1,0 +1,29 @@
+{
+  "coverage": "87.87%",
+  "expectCount": 33,
+  "actualCount": 29,
+  "files": {
+    "src/NumberInput/NumberInput.js": {
+      "expectCount": 13,
+      "actualCount": 11,
+      "undocumentLines": [
+        11,
+        71
+      ]
+    },
+    "src/TextInput/TextInput.js": {
+      "expectCount": 13,
+      "actualCount": 12,
+      "undocumentLines": [
+        63
+      ]
+    },
+    "src/TextInput/tools.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        12
+      ]
+    }
+  }
+}

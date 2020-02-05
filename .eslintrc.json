@@ -1,0 +1,18 @@
+{
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "ignorePatterns": ["webpack.config.js", "node_modules/"],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "off",
+    "strict": ["error", "global"],
+    "curly": "warn"
+  }
+}

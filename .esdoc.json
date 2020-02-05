@@ -1,0 +1,22 @@
+{
+  "source": "./src",
+  "destination": "./docs/api",
+  "plugins": [
+    {"name": "esdoc-ecmascript-proposal-plugin", "option": {"all": true}},
+    {
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "accessor": {
+          "access": [
+            "public"
+          ]
+        },
+        "brand": {
+          "title": "BBj Masks",
+          "description": "A small library to mask text and number inputs based on bbj-masks library.",
+          "repository": "https://github.com/BasisHub/basis-input-masking"
+        }
+      }
+    }
+  ]
+}

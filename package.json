@@ -1,6 +1,6 @@
 {
   "name": "basis-input-masking",
-  "description": "",
+  "description": "A small javascript library to force inputs masking using BBj supported masks",
   "main": "src/index.js",
   "version": "v1.0.0",
   "private": false,

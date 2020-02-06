@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
+const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 module.exports = {
@@ -44,7 +45,7 @@ module.exports = {
                 debug: false,
                 targets: {
                   browsers: ['last 2 versions', 'ie >= 11'],
-                }
+                },
               },
             ],
           ],
@@ -100,6 +101,12 @@ module.exports = {
     new UglifyJsPlugin({
       include: /\.min\.js$/,
     }),
+    new CopyPlugin([
+      {
+        from: './node_modules/bbj-masks/dist/bbj-masks.min.js',
+        to: path.resolve(__dirname, 'dist'),
+      },
+    ]),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,

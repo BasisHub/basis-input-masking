@@ -1,139 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
-  <title>Basis Input Masking Demo</title>
-  <style>
-    body {
-      margin-top: 50px;
-
-    }
-
-    .container {
-      max-width: 650px;
-    }
-
-    img {
-      max-width: 50%;
-    }
-  </style>
-</head>
-<body>
-  <a href="https://github.com/BasisHub/basis-input-masking" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-md-auto">
-
-        <h1 class="text-center">BASIS Input Masking Demo</h1>
-        <br><br>
-
-        <h3>Text Input</h3>
-        <hr>
-        <p>
-          The <strong>TextInput</strong> will wrap text inputs and apply the given <a href="https://github.com/BasisHub/bbj-masks#string-masks">bbj string mask</a>.
-          You can combine masks with patterns to get accurate validation. In case the input lives in a form then the masked and the 
-          unmasked values will be submitted when the form is submitted
-        </p>
-        <br>
-
-        <form>
-          <div class="form-group">
-            <label for="creditExpirationDate">Credit Card Expiration Month</label>
-            <input class="form-control bbj-text-masked" name="creditExpirationDate" id="creditExpirationDate" 
-              value="0112" data-mask="00/00" pattern="(1[0-2]|0[1-9])\/\d\d">
-            <small class="form-text text-muted">Example : 11/18 - Mask : 00/00 - Pattern : (1[0-2]|0[1-9])\/\d\d</small>
-          </div>
-  
-          <div class="form-group">
-            <label for="zipCode">Zip Code</label>
-            <input class="form-control bbj-text-masked" name="zipCode" id="zipCode" 
-              value="66111" data-mask="00000">
-            <small class="form-text text-muted">5-digit zip code - Mask : 00000 - Pattern : None</small>
-          </div>
-  
-          <div class="form-group">
-            <label for="phoneNumber">German Phone Number</label>
-            <input class="form-control bbj-text-masked" name="phoneNumber" id="phoneNumber" 
-              value="4915661011020" data-mask="+(00) 000 000 000 00">
-            <small class="form-text text-muted">German phone number - Mask +(00) 000 000 000 00 - Pattern : None</small>
-          </div>
-  
-          <div class="form-group">
-            <label for="iban">German IBAN</label>
-            <input class="form-control bbj-text-masked" name="iban" id="iban" 
-              value="DE89340400640572013501" data-mask="AA 00 0000 0000 0000 0000 00">
-            <small class="form-text text-muted">German IBAN - Mask : AA 00 0000 0000 0000 0000 00 - Pattern : None</small>
-          </div>
-          
-          <br>
-          <button type="submit" class="btn btn-primary">Submit Form</button>
-          <br>
-          <br>
-          <div class="alert alert-info" role="alert">
-            Watch the page's url for the submitted values
-          </div>
-        </form>
+    <title>Basis Input Masking Demo</title>
+    <style>
+        body {
+            margin-top: 50px;
+        }
         
-        <br><br>
+        .container {
+            max-width: 750px;
+        }
+        
+        img {
+            max-width: 50%;
+        }
+    </style>
+</head>
 
-        <h3>Number Input</h3>
-        <hr>
-  
-        <p>The <strong>NumberInput</strong> will wrap text inputs and apply the given <a href="https://github.com/BasisHub/bbj-masks#number-masks">bbj number mask</a>.
-          In case the input lives in a form then the masked and the 
-          unmasked values will be submitted when the form is submitted
-        </p>
-        <br>
+<body>
+    <a href="https://github.com/BasisHub/basis-input-masking" class="github-corner" aria-label="View source on GitHub">
+        <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+        </svg>
+    </a>
+    <style>
+        .github-corner:hover .octo-arm {
+            animation: octocat-wave 560ms ease-in-out
+        }
+        
+        @keyframes octocat-wave {
+            0%,
+            100% {
+                transform: rotate(0)
+            }
+            20%,
+            60% {
+                transform: rotate(-25deg)
+            }
+            40%,
+            80% {
+                transform: rotate(10deg)
+            }
+        }
+        
+        @media (max-width:500px) {
+            .github-corner:hover .octo-arm {
+                animation: none
+            }
+            .github-corner .octo-arm {
+                animation: octocat-wave 560ms ease-in-out
+            }
+        }
+    </style>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
 
-        <form>
-          <div class="form-group">
-            <label for="randomNumber">Random Number in Range [1000 - 2000]</label>
-            <input class="form-control bbj-number-masked" name="randomNumber" id="randomNumber"
-              value="1234" data-mask="##,##0" data-min="1000" data-max="2000">
-            <small class="form-text text-muted">Mask : ##,##0</small>
-          </div>
-  
-          <br>
-          <button type="submit" class="btn btn-primary">Submit Form</button>
-          <br>
-          <br>
-          <div class="alert alert-info" role="alert">
-            Watch the page's url for the submitted values
-          </div>
-        </form>
+              <div class="jumbotron">
+                <h1 class="display-4">BASIS Input Masking</h1>
+                <p class="lead">A small javascript library to force inputs masking using BBj supported masks</p>
+              </div>
 
-        <br><br><br>
-      </div>
+                <br>
+                <br>
+
+                <h3>Text Input</h3>
+                <hr>
+                <p>
+                    The <strong>TextInput</strong> will wrap text inputs and apply the given <a href="https://github.com/BasisHub/bbj-masks#string-masks">bbj string mask</a>. You can combine masks with patterns to get accurate validation. In case the input lives in a form then the masked and the unmasked values will be submitted when the form is submitted
+                </p>
+                <br>
+
+                <div class="table-responsive">
+                    <table style="width:100%;" class="table">
+                        <colgroup>
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                        </colgroup>
+                        <thead>
+                            <tr class="header">
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE11 / Edge" width="24px" height="24px" /></a>
+                                    <br>IE / Edge</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /></a>
+                                    <br>Firefox</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /></a>
+                                    <br>Chrome</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /></a>
+                                    <br>Safari</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" /></a>
+                                    <br>iOS Safari</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" /></a>
+                                    <br>Opera</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd">
+                                <td>IE11, Edge</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <form>
+                    <div class="form-group">
+                        <label for="creditExpirationDate">Credit Card Expiration Month</label>
+                        <input class="form-control bbj-text-masked" name="creditExpirationDate" id="creditExpirationDate" value="0112" data-mask="00/00" pattern="(1[0-2]|0[1-9])\/\d\d">
+                        <small class="form-text text-muted">Example : 11/18 - Mask : 00/00 - Pattern : (1[0-2]|0[1-9])\/\d\d</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zipCode">Zip Code</label>
+                        <input class="form-control bbj-text-masked" name="zipCode" id="zipCode" value="66111" data-mask="00000">
+                        <small class="form-text text-muted">5-digit zip code - Mask : 00000 - Pattern : None</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">German Phone Number</label>
+                        <input class="form-control bbj-text-masked" name="phoneNumber" id="phoneNumber" value="4915661011020" data-mask="+(00) 000 000 000 00">
+                        <small class="form-text text-muted">German phone number - Mask +(00) 000 000 000 00 - Pattern : None</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iban">German IBAN</label>
+                        <input class="form-control bbj-text-masked" name="iban" id="iban" value="DE89340400640572013501" data-mask="AA 00 0000 0000 0000 0000 00">
+                        <small class="form-text text-muted">German IBAN - Mask : AA 00 0000 0000 0000 0000 00 - Pattern : None</small>
+                    </div>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                    <br>
+                    <br>
+                    <div class="alert alert-info" role="alert">
+                        Watch the page's url for the submitted values
+                    </div>
+                </form>
+
+                <br>
+                <br>
+
+                <h3>Number Input</h3>
+                <hr>
+
+                <p>The <strong>NumberInput</strong> will wrap text inputs and apply the given <a href="https://github.com/BasisHub/bbj-masks#number-masks">bbj number mask</a>. In case the input lives in a form then the masked and the unmasked values will be submitted when the form is submitted
+                </p>
+                <br>
+
+                <div class="table-responsive">
+                    <table style="width:100%;" class="table">
+                        <colgroup>
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                            <col style="width: 16%" />
+                        </colgroup>
+                        <thead>
+                            <tr class="header">
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" /></a>
+                                    <br> Edge</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /></a>
+                                    <br>Firefox</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /></a>
+                                    <br>Chrome</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /></a>
+                                    <br>Safari</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" /></a>
+                                    <br>iOS Safari</th>
+                                <th>
+                                    <a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" /></a>
+                                    <br>Opera</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd">
+                                <td>Edge</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                                <td>last 2 versions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br>
+                <form>
+                    <div class="form-group">
+                        <label for="randomNumber">Random Number in Range [1000 - 2000]</label>
+                        <input class="form-control bbj-number-masked" name="randomNumber" id="randomNumber" value="1234" data-mask="##,##0" data-min="1000" data-max="2000">
+                        <small class="form-text text-muted">Mask : ##,##0</small>
+                    </div>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                    <br>
+                    <br>
+                    <div class="alert alert-info" role="alert">
+                        Watch the page's url for the submitted values
+                    </div>
+                </form>
+
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-  <script src="../../node_modules/bbj-masks/dist/bbj-masks.js"></script>
-  <script src="../../dist/basis-input-masking.js"></script>  
-  <script>
-    document.addEventListener('DOMContentLoaded', function (e) {
-       new Basis.InputMasking.TextInput({
-        cssClassError: 'is-invalid',
-        cssClassSuccess: 'is-valid'
-      })
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="../../dist/bbj-masks.min.js"></script>
+    <script src="../../dist/basis-input-masking.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            new Basis.InputMasking.TextInput({
+                cssClassError: 'is-invalid',
+                cssClassSuccess: 'is-valid'
+            })
 
-      new Basis.InputMasking.NumberInput({
-        cssClassError: 'is-invalid',
-        cssClassSuccess: 'is-valid'
-      })
+            new Basis.InputMasking.NumberInput({
+                cssClassError: 'is-invalid',
+                cssClassSuccess: 'is-valid'
+            })
 
-      jQuery('script[type="text/snippet"]').each(function() {
-          var el = $(this);
-          var safe = $('<pre class="language-html"/>').text(el.html().trim())
-          el.after(safe);
-      });
+            jQuery('script[type="text/snippet"]').each(function() {
+                var el = $(this);
+                var safe = $('<pre class="language-html"/>').text(el.html().trim())
+                el.after(safe);
+            });
 
-    })
-  </script>
+        })
+    </script>
 </body>
+
 </html>

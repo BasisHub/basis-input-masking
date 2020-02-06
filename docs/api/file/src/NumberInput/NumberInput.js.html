@@ -62,7 +62,7 @@ const countDecimals = value =&gt; {
 
 /**
  * The `NumberInput` will wrap text inputs and apply the given [bbj Number mask](https://github.com/BasisHub/bbj-masks#number-masks)
- * 
+ *
  * **Options**
  *
  * _Options can be passed via data attributes . For data attributes, append the option name to data-, as in data-mask_
@@ -76,9 +76,9 @@ const countDecimals = value =&gt; {
  * |grouping-separator | , | a char which will be used as a grouping separator |
  * |decimal-separator | . | a char which will be used as a decimal separator |
  * |force-trailing-zeros | false | Affects the output by switching the way a mask with &quot;#&quot; characters in the trailing positions is filled. for example, the function NumberMask.mask(.10:&quot;#.##&quot;) returns .10 instead of .1|
- * 
+ *
  *  &lt;br&gt;
- * 
+ *
  * **Example :**
  * ```html
  *  &lt;input class=&quot;bbj-number-masked&quot; name=&quot;test&quot; id=&quot;test&quot; value=&quot;1234&quot; data-mask=&quot;##,##0&quot;&gt;
@@ -229,8 +229,15 @@ class NumberInput {
     // -----------------------------------------------------
     if (!isWrapped) {
       actualInput.parentNode.insertBefore(wrap, actualInput) // move the input outside the wrapper
-      actualInput.addEventListener(&apos;click&apos;, this._actualInputHandler)
-      actualInput.addEventListener(&apos;focusin&apos;, this._actualInputHandler)
+      if (
+        !(
+          actualInput.hasAttribute(&apos;readonly&apos;) ||
+          actualInput.hasAttribute(&apos;disabled&apos;)
+        )
+      ) {
+        actualInput.addEventListener(&apos;click&apos;, this._actualInputHandler)
+        actualInput.addEventListener(&apos;focusin&apos;, this._actualInputHandler)
+      }
     }
 
     actualInput.dataset.valueUnmasked = actualInput.value || 0
@@ -390,8 +397,7 @@ class NumberInput {
       ).trim()
     } catch (e) {
       maskedValue = false
-      unmaskedInput.classList.remove(this.options.cssClassSuccess)
-      unmaskedInput.classList.add(this.options.cssClassError)
+      this.__applyCssClassState(unmaskedInput, actualInput, &apos;error&apos;)
       this.__fireOnInvalid(e, actualInput)
     }
 
@@ -457,18 +463,9 @@ class NumberInput {
     } else isValid = unmaskedInput.checkValidity()
 
     if (isValid) {
-      unmaskedInput.classList.add(this.options.cssClassSuccess)
-      unmaskedInput.classList.remove(this.options.cssClassError)
-
-      actualInput.classList.add(this.options.cssClassSuccess)
-      actualInput.classList.remove(this.options.cssClassError)
+      this.__applyCssClassState(unmaskedInput, actualInput, &apos;success&apos;)
     } else {
-      unmaskedInput.classList.add(this.options.cssClassError)
-      unmaskedInput.classList.remove(this.options.cssClassSuccess)
-
-      actualInput.classList.add(this.options.cssClassError)
-      actualInput.classList.remove(this.options.cssClassSuccess)
-
+      this.__applyCssClassState(unmaskedInput, actualInput, &apos;error&apos;)
       this.__fireOnInvalid(&apos;Validity check fails&apos;, actualInput)
     }
 
@@ -490,6 +487,38 @@ class NumberInput {
   __fireOnInvalid(error, input) {
     if (this.options.onInvalid) {
       this.options.onInvalid(error, input)
+    }
+  }
+
+  /**
+   * @private
+   */
+  __applyCssClassState(unmaskedInput, actualInput, state) {
+    if (
+      actualInput.hasAttribute(&apos;readonly&apos;) ||
+      actualInput.hasAttribute(&apos;disabled&apos;)
+    ) {
+      actualInput.classList.remove(this.options.cssClassError)
+      actualInput.classList.remove(this.options.cssClassSuccess)
+
+      unmaskedInput.classList.remove(this.options.cssClassError)
+      unmaskedInput.classList.remove(this.options.cssClassSuccess)
+    } else {
+      if (state === &apos;success&apos;) {
+        actualInput.classList.remove(this.options.cssClassError)
+        actualInput.classList.add(this.options.cssClassSuccess)
+
+        unmaskedInput.classList.remove(this.options.cssClassError)
+        unmaskedInput.classList.add(this.options.cssClassSuccess)
+      }
+
+      if (state === &apos;error&apos;) {
+        actualInput.classList.add(this.options.cssClassError)
+        actualInput.classList.remove(this.options.cssClassSuccess)
+
+        unmaskedInput.classList.add(this.options.cssClassError)
+        unmaskedInput.classList.remove(this.options.cssClassSuccess)
+      }
     }
   }
 }

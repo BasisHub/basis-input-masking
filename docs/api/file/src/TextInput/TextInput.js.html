@@ -60,7 +60,7 @@ import {
 
 /**
  * The `TextInput` will wrap text inputs and apply the given [bbj string mask](https://github.com/BasisHub/bbj-masks#string-masks)
- * 
+ *
  * **Options**
  *
  * _Options can be passed via data attributes . For data attributes, append the option name to data-, as in data-mask_
@@ -68,9 +68,9 @@ import {
  * | Option    | Default | Description                                                                                             |
  * |-----------|---------|---------------------------------------------------------------------------------------------------------|
  * | mask |         | The bbj string mask @see [BBj String Masks](https://github.com/BasisHub/bbj-masks#string-masks) |
- * 
+ *
  *  &lt;br&gt;
- * 
+ *
  * **Example :**
  * ```html
  *  &lt;input class=&quot;bbj-text-masked&quot; name=&quot;test&quot; id=&quot;test&quot; value=&quot;ed23&quot; data-mask=&quot;AA-00&quot;&gt;
@@ -221,11 +221,13 @@ class TextInput {
     }
 
     if (!isWrapped) {
-      input.addEventListener(&apos;keyup&apos;, this._onKeystroke)
-      input.addEventListener(&apos;keypress&apos;, this._onKeystroke)
-      input.addEventListener(&apos;paste&apos;, this._onKeystroke)
-      input.addEventListener(&apos;focusin&apos;, this._onFocus)
-      input.addEventListener(&apos;click&apos;, this._onFocus)
+      if (!(input.hasAttribute(&apos;readonly&apos;) || input.hasAttribute(&apos;disable&apos;))) {
+        input.addEventListener(&apos;keyup&apos;, this._onKeystroke)
+        input.addEventListener(&apos;keypress&apos;, this._onKeystroke)
+        input.addEventListener(&apos;paste&apos;, this._onKeystroke)
+        input.addEventListener(&apos;focusin&apos;, this._onFocus)
+        input.addEventListener(&apos;click&apos;, this._onFocus)
+      }
       input.parentNode.insertBefore(wrap, input) // move the input outside the wrapper
     }
 
@@ -338,13 +340,11 @@ class TextInput {
         this.options.doc.querySelector(
           `#${input.getAttribute(&apos;id&apos;)}-unmasked`
         ).value = unmaskedValue
-        input.classList.remove(this.options.cssClassError)
-        input.classList.add(this.options.cssClassSuccess)
+        this.__applyCssClassState(input, &apos;success&apos;)
         this.__fireOnUpdate(input.value, unmaskedValue, input)
         maskError = false
       } catch (error) {
-        input.classList.add(this.options.cssClassError)
-        input.classList.remove(this.options.cssClassSuccess)
+        this.__applyCssClassState(input, &apos;error&apos;)
         this.__fireOnInvalid(error, input)
         maskError = true
       }
@@ -397,11 +397,9 @@ class TextInput {
     const isValid = input.checkValidity()
 
     if (isValid) {
-      input.classList.remove(this.options.cssClassError)
-      input.classList.add(this.options.cssClassSuccess)
+      this.__applyCssClassState(input, &apos;success&apos;)
     } else {
-      input.classList.add(this.options.cssClassError)
-      input.classList.remove(this.options.cssClassSuccess)
+      this.__applyCssClassState(input, &apos;error&apos;)
       this.__fireOnInvalid(&apos;Validity check fails&apos;, input)
     }
 
@@ -423,6 +421,26 @@ class TextInput {
   __fireOnInvalid(error, input) {
     if (this.options.onInvalid) {
       this.options.onInvalid(error, input)
+    }
+  }
+
+  /**
+   * @private
+   */
+  __applyCssClassState(input, state) {
+    if (input.hasAttribute(&apos;readonly&apos;) || input.hasAttribute(&apos;disabled&apos;)) {
+      input.classList.remove(this.options.cssClassError)
+      input.classList.remove(this.options.cssClassSuccess)
+    } else {
+      if (state === &apos;success&apos;) {
+        input.classList.remove(this.options.cssClassError)
+        input.classList.add(this.options.cssClassSuccess)
+      }
+
+      if (state === &apos;error&apos;) {
+        input.classList.add(this.options.cssClassError)
+        input.classList.remove(this.options.cssClassSuccess)
+      }
     }
   }
 }

@@ -9,7 +9,7 @@
     "test:watch": "./node_modules/.bin/karma start --auto-watch --browsers ChromeHeadless,FirefoxHeadless,Edge karma.conf.js",
     "test": "./node_modules/.bin/karma start --single-run --browsers ChromeHeadless,FirefoxHeadless karma.conf.js",
     "doc": "./node_modules/.bin/esdoc",
-    "build": "yarn test && && yarn doc && ./node_modules/.bin/webpack"
+    "build": "yarn test && yarn doc && ./node_modules/.bin/webpack"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

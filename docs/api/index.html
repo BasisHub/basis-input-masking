@@ -41,7 +41,137 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content">
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="basis-input-masking">BASIS Input Masking</h1><p><a href="https://travis-ci.org/BasisHub/basis-input-masking"><img src="https://travis-ci.org/BasisHub/basis-input-masking.svg?branch=master" alt="Build Status"></a>
+<img src="https://img.shields.io/github/license/BasisHub/basis-input-masking" alt="GitHub">
+<img src="https://img.shields.io/github/size/BasisHub/basis-input-masking/dist/basis-input-masking.min.js" alt="GitHub file size in bytes">
+<img src="https://img.shields.io/github/v/tag/BasisHub/basis-input-masking" alt="GitHub tag (latest by date)">
+<img src="https://img.shields.io/david/BasisHub/basis-input-masking" alt="David"></p>
+<p><a href="https://basishub.github.io/basis-input-masking/docs/demo/">Demo</a> | <a href="https://basishub.github.io/basis-input-masking/docs/api/">API</a> <br></p>
+<p>A small javascript library to force inputs masking using BBj supported masks</p>
+<h2 id="installation">Installation</h2><pre><code><code class="source-code prettyprint">yarn add BasisHub/bbj-masks BasisHub/basis-input-masking  
+npm install BasisHub/bbj-masks BasisHub/basis-input-masking</code>
+</code></pre><h2 id="usage">Usage</h2><pre><code class="lang-html"><code class="source-code prettyprint">&lt;script src=&quot;node_modules/bbj-masks/dist/bbj-masks.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;node_modules/basis-input-masking/dist/basis-input-masking.js&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<h2 id="components">Components</h2><p>The library ships two components :</p>
+<ul>
+<li>TextInput : force <a href="https://github.com/BasisHub/bbj-masks#string-masks">bbj-string masks</a> on inputs</li>
+<li>NumberInput : force <a href="https://github.com/BasisHub/bbj-masks#number-masks">bbj-number masks</a> on inputs</li>
+</ul>
+<h2 id="textinput">TextInput</h2><p>The TextInput will wrap text inputs and apply the given bbj string mask. You can combine masks with patterns to get accurate validation. In case the input lives in a form then the masked and the unmasked values will be submitted when the form is submitted</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;!-- masked value is +(49) 156 610 110 20 --&gt;
+&lt;input
+  class=&quot;bbj-text-masked&quot;
+  name=&quot;test&quot;
+  id=&quot;test&quot;
+  value=&quot;4915661011020&quot;
+  data-mask=&quot;+(00) 000 000 000 00&quot;
+/&gt;
+
+&lt;script&gt;
+  document.addEventListener(&apos;DOMContentLoaded&apos;, function(e) {
+    new Basis.InputMasking.TextInput({
+      onUpdate: (maskedValue, rawValue, input) =&gt; {
+        // do something
+      },
+      onInvalid: (err, input) =&gt; {
+        // do something
+      },
+    })
+  })
+&lt;/script&gt;</code>
+</code></pre>
+<p><strong>Options</strong></p>
+<p><em>Options can be passed via data attributes . For data attributes, append the option name to data-, as in data-mask</em></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mask</td>
+<td></td>
+<td>The bbj string mask @see <a href="https://github.com/BasisHub/bbj-masks#string-masks">BBj String Masks</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="numberinput">NumberInput</h2><p>The NumberInput will wrap text inputs and apply the given bbj number mask. In case the input lives in a form then the masked and the unmasked values will be submitted when the form is submitted</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;!-- masked value is 1,234 --&gt;
+&lt;input
+  class=&quot;bbj-number-masked&quot;
+  name=&quot;test&quot;
+  id=&quot;test&quot;
+  value=&quot;1234&quot;
+  data-mask=&quot;##,##0&quot;
+/&gt;
+
+&lt;script&gt;
+  document.addEventListener(&apos;DOMContentLoaded&apos;, function(e) {
+    new Basis.InputMasking.NumberInput({
+      onUpdate: (maskedValue, rawValue, input) =&gt; {
+        // do something
+      },
+      onInvalid: (err, input) =&gt; {
+        // do something
+      },
+    })
+  })
+&lt;/script&gt;</code>
+</code></pre>
+<p><strong>Options</strong></p>
+<p><em>Options can be passed via data attributes . For data attributes, append the option name to data-, as in data-mask</em></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mask</td>
+<td></td>
+<td>The bbj number mask @see <a href="https://github.com/BasisHub/bbj-masks#number-masks">BBj Number Masks</a></td>
+</tr>
+<tr>
+<td>min</td>
+<td></td>
+<td>The maximum value to accept for this input</td>
+</tr>
+<tr>
+<td>max</td>
+<td></td>
+<td>The minimum value to accept for this input</td>
+</tr>
+<tr>
+<td>step</td>
+<td></td>
+<td>A stepping interval to use when using up and down arrows to adjust the value, as well as for validation</td>
+</tr>
+<tr>
+<td>grouping-separator</td>
+<td>,</td>
+<td>a char which will be used as a grouping separator</td>
+</tr>
+<tr>
+<td>decimal-separator</td>
+<td>.</td>
+<td>a char which will be used as a decimal separator</td>
+</tr>
+<tr>
+<td>force-trailing-zeros</td>
+<td>false</td>
+<td>Affects the output by switching the way a mask with &quot;#&quot; characters in the trailing positions is filled. for example, the function NumberMask.mask(.10:&quot;#.##&quot;) returns .10 instead of .1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="license">License</h2><p>Licensed under the <a href="https://github.com/BasisHub/basis-input-masking/blob/master/LICENSE">MIT License</a>.</p>
+</div>
 </div>
 
 <footer class="footer">

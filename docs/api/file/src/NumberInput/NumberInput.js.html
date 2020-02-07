@@ -298,6 +298,7 @@ class NumberInput {
     if (!isWrapped) {
       unmaskedInput.classList.add(&apos;numberInputMask__unmaskedInput&apos;)
       unmaskedInput.addEventListener(&apos;keydown&apos;, this._unmaskedInputHandler)
+      unmaskedInput.addEventListener(&apos;keyup&apos;, this._unmaskedInputHandler)
       unmaskedInput.addEventListener(&apos;focusout&apos;, this._unmaskedInputHandler)
 
       // configure the wrapper

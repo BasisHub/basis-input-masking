@@ -1051,6 +1051,7 @@ function () {
       if (!isWrapped) {
         unmaskedInput.classList.add('numberInputMask__unmaskedInput');
         unmaskedInput.addEventListener('keydown', this._unmaskedInputHandler);
+        unmaskedInput.addEventListener('keyup', this._unmaskedInputHandler);
         unmaskedInput.addEventListener('focusout', this._unmaskedInputHandler); // configure the wrapper
 
         wrap.setAttribute('class', 'numberInputMask__wrap');

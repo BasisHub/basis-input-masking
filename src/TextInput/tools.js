@@ -7,7 +7,6 @@
  */
 
 import StringMask from 'bbj-masks/src/StringMask'
-import 'core-js/stable/array/fill'
 
 const SUPPORTED_MASKS = ['X', 'a', 'A', '0', 'z', 'Z', 'U']
 /**
@@ -196,7 +195,7 @@ const findCaretPosition = (maskedValue, mask) => {
     let maskedValueAsArray = maskedValue.split('')
     if (maskedValueAsArray.length < maskAsArray.length) {
       maskedValueAsArray = maskedValueAsArray.concat(
-        new Array(maskAsArray.length - maskedValueAsArray.length).fill(' ')
+        new Array(maskAsArray.length - maskedValueAsArray.length).join(' ').split('')
       )
     }
 

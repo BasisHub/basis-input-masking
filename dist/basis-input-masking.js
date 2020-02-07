@@ -381,7 +381,7 @@ function () {
     key: "_onKeystroke",
     value: function _onKeystroke(e) {
       if (e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
-      e.preventDefault();
+      if (e.keyCode !== 13) e.preventDefault();
       var input = e.target,
           mask = input.dataset.mask || this.options.mask,
           eventType = e.type;

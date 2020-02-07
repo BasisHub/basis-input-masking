@@ -86,9 +86,16 @@ const countDecimals = value =&gt; {
  *  &lt;script&gt;
  *    document.addEventListener(&apos;DOMContentLoaded&apos;, function (e) {
  *      new Basis.InputMasking.NumberInput({
- *         onUpdate: (maskedValue , rawValue , input) =&gt; {
+ *
+ *         // @param {String} valueMasked  masked value
+ *         // @param {Number} valueUnmasked  original value
+ *         // @param {HTMLInputElement} input the actual input instance
+ *         onUpdate: (valueMasked, valueUnmasked, input, isApplied, isInitial) =&gt; {
  *            // do something
  *         },
+ *
+ *         // @param {String|Object} error last occurred error. could be mask error or validation error
+ *         // @param {HTMLInputElement} input the actual input instance
  *         onInvalid: (err , input) =&gt; {
  *            // do something
  *         }
@@ -290,8 +297,7 @@ class NumberInput {
 
     if (!isWrapped) {
       unmaskedInput.classList.add(&apos;numberInputMask__unmaskedInput&apos;)
-      unmaskedInput.addEventListener(&apos;keyup&apos;, this._unmaskedInputHandler)
-      unmaskedInput.addEventListener(&apos;keypress&apos;, this._unmaskedInputHandler)
+      unmaskedInput.addEventListener(&apos;keydown&apos;, this._unmaskedInputHandler)
       unmaskedInput.addEventListener(&apos;focusout&apos;, this._unmaskedInputHandler)
 
       // configure the wrapper
@@ -349,21 +355,24 @@ class NumberInput {
   _actualInputHandler(e) {
     const actualInput = e.target,
       actualInputId = actualInput.id,
-      unmaskInput = this.options.doc.querySelector(`#${actualInputId}-unmasked`)
+      unmaskedInput = this.options.doc.querySelector(
+        `#${actualInputId}-unmasked`
+      )
 
     actualInput.setAttribute(&apos;aria-hidden&apos;, &apos;true&apos;)
     actualInput.setAttribute(&apos;type&apos;, &apos;hidden&apos;)
 
-    unmaskInput.removeAttribute(&apos;aria-hidden&apos;)
-    unmaskInput.setAttribute(&apos;type&apos;, &apos;number&apos;)
-    this._validateInput(unmaskInput, actualInput)
+    unmaskedInput.removeAttribute(&apos;aria-hidden&apos;)
+    unmaskedInput.setAttribute(&apos;type&apos;, &apos;number&apos;)
+    this._validateInput(unmaskedInput, actualInput)
     setTimeout(() =&gt; {
-      unmaskInput.focus()
+      unmaskedInput.focus()
+      this._validateInput(unmaskedInput, actualInput)
     })
   }
 
   /**
-   * Listen to the unmasked input keypress , keyup and focusout events and check
+   * Listen to the unmasked input keydown and focusout events and check
    * if the input value can be masked or not
    *
    * @param {Event} e
@@ -402,9 +411,12 @@ class NumberInput {
     }
 
     switch (type) {
-      case &apos;keyup&apos;:
-        restore = (keyCode === 13 &amp;&amp; maskedValue &amp;&amp; isValid) || keyCode === 27
-        apply = keyCode === 13
+      case &apos;keydown&apos;:
+        restore =
+          (keyCode === 13 &amp;&amp; maskedValue &amp;&amp; isValid) ||
+          keyCode === 27 ||
+          keyCode === 9
+        apply = keyCode === 13 || keyCode === 9
         break
       case &apos;focusout&apos;:
         restore = true
@@ -473,15 +485,26 @@ class NumberInput {
   }
 
   /**
+   * @param {String} valueMasked  masked value
+   * @param {Number} valueUnmasked  original value
+   * @param {HTMLInputElement} input the actual input instance
+   *
    * @private
    */
   __fireOnUpdate(valueMasked, valueUnmasked, input) {
     if (this.options.onUpdate) {
-      this.options.onUpdate(valueMasked, valueUnmasked, input)
+      this.options.onUpdate(
+        valueMasked,
+        valueUnmasked,
+        input
+      )
     }
   }
 
   /**
+   * @param {String|Object} error last occurred error. could be mask error or validation error
+   * @param {HTMLInputElement} input the actual input instance
+   *
    * @private
    */
   __fireOnInvalid(error, input) {

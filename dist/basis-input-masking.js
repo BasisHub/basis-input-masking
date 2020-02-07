@@ -862,9 +862,16 @@ var countDecimals = function countDecimals(value) {
  *  <script>
  *    document.addEventListener('DOMContentLoaded', function (e) {
  *      new Basis.InputMasking.NumberInput({
- *         onUpdate: (maskedValue , rawValue , input) => {
+ *
+ *         // @param {String} valueMasked  masked value
+ *         // @param {Number} valueUnmasked  original value
+ *         // @param {HTMLInputElement} input the actual input instance
+ *         onUpdate: (valueMasked, valueUnmasked, input, isApplied, isInitial) => {
  *            // do something
  *         },
+ *
+ *         // @param {String|Object} error last occurred error. could be mask error or validation error
+ *         // @param {HTMLInputElement} input the actual input instance
  *         onInvalid: (err , input) => {
  *            // do something
  *         }
@@ -1043,8 +1050,7 @@ function () {
 
       if (!isWrapped) {
         unmaskedInput.classList.add('numberInputMask__unmaskedInput');
-        unmaskedInput.addEventListener('keyup', this._unmaskedInputHandler);
-        unmaskedInput.addEventListener('keypress', this._unmaskedInputHandler);
+        unmaskedInput.addEventListener('keydown', this._unmaskedInputHandler);
         unmaskedInput.addEventListener('focusout', this._unmaskedInputHandler); // configure the wrapper
 
         wrap.setAttribute('class', 'numberInputMask__wrap');
@@ -1095,22 +1101,26 @@ function () {
   }, {
     key: "_actualInputHandler",
     value: function _actualInputHandler(e) {
+      var _this = this;
+
       var actualInput = e.target,
           actualInputId = actualInput.id,
-          unmaskInput = this.options.doc.querySelector("#".concat(actualInputId, "-unmasked"));
+          unmaskedInput = this.options.doc.querySelector("#".concat(actualInputId, "-unmasked"));
       actualInput.setAttribute('aria-hidden', 'true');
       actualInput.setAttribute('type', 'hidden');
-      unmaskInput.removeAttribute('aria-hidden');
-      unmaskInput.setAttribute('type', 'number');
+      unmaskedInput.removeAttribute('aria-hidden');
+      unmaskedInput.setAttribute('type', 'number');
 
-      this._validateInput(unmaskInput, actualInput);
+      this._validateInput(unmaskedInput, actualInput);
 
       setTimeout(function () {
-        unmaskInput.focus();
+        unmaskedInput.focus();
+
+        _this._validateInput(unmaskedInput, actualInput);
       });
     }
     /**
-     * Listen to the unmasked input keypress , keyup and focusout events and check
+     * Listen to the unmasked input keydown and focusout events and check
      * if the input value can be masked or not
      *
      * @param {Event} e
@@ -1147,9 +1157,9 @@ function () {
       }
 
       switch (type) {
-        case 'keyup':
-          restore = keyCode === 13 && maskedValue && isValid || keyCode === 27;
-          apply = keyCode === 13;
+        case 'keydown':
+          restore = keyCode === 13 && maskedValue && isValid || keyCode === 27 || keyCode === 9;
+          apply = keyCode === 13 || keyCode === 9;
           break;
 
         case 'focusout':
@@ -1217,6 +1227,10 @@ function () {
       return isValid;
     }
     /**
+     * @param {String} valueMasked  masked value
+     * @param {Number} valueUnmasked  original value
+     * @param {HTMLInputElement} input the actual input instance
+     *
      * @private
      */
 
@@ -1228,6 +1242,9 @@ function () {
       }
     }
     /**
+     * @param {String|Object} error last occurred error. could be mask error or validation error
+     * @param {HTMLInputElement} input the actual input instance
+     *
      * @private
      */
 

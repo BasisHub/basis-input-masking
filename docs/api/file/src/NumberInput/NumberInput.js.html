@@ -478,7 +478,7 @@ class NumberInput {
       this.__applyCssClassState(unmaskedInput, actualInput, &apos;success&apos;)
     } else {
       this.__applyCssClassState(unmaskedInput, actualInput, &apos;error&apos;)
-      this.__fireOnInvalid(&apos;Validity check fails&apos;, actualInput)
+      this.__fireOnInvalid(unmaskedInput.validationMessage || &apos;Validity check fails&apos;, actualInput)
     }
 
     return isValid

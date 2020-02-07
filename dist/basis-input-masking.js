@@ -387,6 +387,7 @@ function () {
           eventType = e.type;
       input.classList.remove(this.options.cssClassError);
       input.classList.remove(this.options.cssClassSuccess);
+      input.setCustomValidity('');
       var value = input.value,
           keyCode = e.keyCode,
           key = e.key ? e.key.length > 1 ? '' : e.key : '',
@@ -419,12 +420,15 @@ function () {
       if ([35, 36, 37, 38, 39, 40].indexOf(keyCode) === -1) {
         try {
           input.value = __WEBPACK_IMPORTED_MODULE_0_bbj_masks_src_StringMask___default.a.mask(unmaskedValue, mask, false);
-          input.dataset.valueUnmasked = unmaskedValue;
-          this.options.doc.querySelector("#".concat(input.getAttribute('id'), "-unmasked")).value = unmaskedValue;
 
-          this.__applyCssClassState(input, 'success');
+          if (this._validateInput(input)) {
+            input.dataset.valueUnmasked = unmaskedValue;
+            this.options.doc.querySelector("#".concat(input.getAttribute('id'), "-unmasked")).value = unmaskedValue;
 
-          this.__fireOnUpdate(input.value, unmaskedValue, input);
+            this.__applyCssClassState(input, 'success');
+
+            this.__fireOnUpdate(input.value, input.dataset.valueUnmasked, input);
+          }
 
           maskError = false;
         } catch (error) {
@@ -491,10 +495,12 @@ function () {
 
       if (isValid) {
         this.__applyCssClassState(input, 'success');
+
+        input.setCustomValidity('');
       } else {
         this.__applyCssClassState(input, 'error');
 
-        this.__fireOnInvalid('Validity check fails', input);
+        this.__fireOnInvalid(input.validationMessage, input);
       }
 
       return isValid;

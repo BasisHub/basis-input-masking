@@ -257,6 +257,7 @@ class TextInput {
 
     input.classList.remove(this.options.cssClassError)
     input.classList.remove(this.options.cssClassSuccess)
+    input.setCustomValidity('');
 
     let value = input.value,
       keyCode = e.keyCode,
@@ -292,12 +293,14 @@ class TextInput {
     if ([35, 36, 37, 38, 39, 40].indexOf(keyCode) === -1) {
       try {
         input.value = StringMask.mask(unmaskedValue, mask, false)
-        input.dataset.valueUnmasked = unmaskedValue
-        this.options.doc.querySelector(
-          `#${input.getAttribute('id')}-unmasked`
-        ).value = unmaskedValue
-        this.__applyCssClassState(input, 'success')
-        this.__fireOnUpdate(input.value, unmaskedValue, input)
+        if(this._validateInput(input)) {
+          input.dataset.valueUnmasked = unmaskedValue
+          this.options.doc.querySelector(
+            `#${input.getAttribute('id')}-unmasked`
+          ).value = unmaskedValue
+          this.__applyCssClassState(input, 'success')
+          this.__fireOnUpdate(input.value, input.dataset.valueUnmasked, input)
+        }
         maskError = false
       } catch (error) {
         this.__applyCssClassState(input, 'error')
@@ -354,9 +357,10 @@ class TextInput {
 
     if (isValid) {
       this.__applyCssClassState(input, 'success')
+      input.setCustomValidity('')
     } else {
       this.__applyCssClassState(input, 'error')
-      this.__fireOnInvalid('Validity check fails', input)
+      this.__fireOnInvalid(input.validationMessage, input)
     }
 
     return isValid

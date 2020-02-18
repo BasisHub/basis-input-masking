@@ -1108,8 +1108,6 @@ function () {
   }, {
     key: "_actualInputHandler",
     value: function _actualInputHandler(e) {
-      var _this = this;
-
       var actualInput = e.target,
           actualInputId = actualInput.id,
           unmaskedInput = this.options.doc.querySelector("#".concat(actualInputId, "-unmasked"));
@@ -1122,9 +1120,11 @@ function () {
 
       setTimeout(function () {
         unmaskedInput.focus();
-
-        _this._validateInput(unmaskedInput, actualInput);
-      });
+        var length = String(unmaskedInput.value).length;
+        unmaskedInput.type = 'text';
+        unmaskedInput.setSelectionRange(length, length);
+        unmaskedInput.type = 'number';
+      }, 0);
     }
     /**
      * Listen to the unmasked input keydown and focusout events and check
@@ -1163,20 +1163,8 @@ function () {
         this.__fireOnInvalid(e, actualInput);
       }
 
-      switch (type) {
-        case 'keydown':
-          restore = keyCode === 13 && maskedValue && isValid || keyCode === 27 || keyCode === 9;
-          apply = keyCode === 13 || keyCode === 9;
-          break;
-
-        case 'focusout':
-          restore = true;
-          apply = maskedValue && isValid;
-          break;
-
-        default:
-          break;
-      }
+      restore = [13, 27].indexOf(keyCode) > -1 || e.type === 'focusout';
+      apply = maskedValue && isValid;
 
       if (restore) {
         unmaskedInput.classList.remove(this.options.cssClassError);
@@ -1187,13 +1175,15 @@ function () {
         actualInput.setAttribute('type', 'text');
         actualInput.classList.add(this.options.cssClassSuccess);
 
-        if (apply && maskedValue && isValid) {
+        if (apply) {
           actualInput.value = maskedValue;
           actualInput.dataset.valueUnmasked = unmaskedInput.value;
 
           this.__fireOnUpdate(maskedValue, unmaskedInput.value, actualInput);
         } else {
           unmaskedInput.value = actualInput.dataset.valueUnmasked;
+
+          this.__applyCssClassState(unmaskedInput, actualInput, 'success');
         }
       }
     }

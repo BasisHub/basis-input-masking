@@ -368,8 +368,11 @@ class NumberInput {
     this._validateInput(unmaskedInput, actualInput)
     setTimeout(() =&gt; {
       unmaskedInput.focus()
-      this._validateInput(unmaskedInput, actualInput)
-    })
+      const length = String(unmaskedInput.value).length
+      unmaskedInput.type = &apos;text&apos;
+      unmaskedInput.setSelectionRange(length, length)
+      unmaskedInput.type = &apos;number&apos;
+    }, 0)
   }
 
   /**
@@ -411,21 +414,8 @@ class NumberInput {
       this.__fireOnInvalid(e, actualInput)
     }
 
-    switch (type) {
-      case &apos;keydown&apos;:
-        restore =
-          (keyCode === 13 &amp;&amp; maskedValue &amp;&amp; isValid) ||
-          keyCode === 27 ||
-          keyCode === 9
-        apply = keyCode === 13 || keyCode === 9
-        break
-      case &apos;focusout&apos;:
-        restore = true
-        apply = maskedValue &amp;&amp; isValid
-        break
-      default:
-        break
-    }
+    restore = [13, 27].indexOf(keyCode) &gt; -1 || e.type === &apos;focusout&apos;
+    apply = maskedValue &amp;&amp; isValid
 
     if (restore) {
       unmaskedInput.classList.remove(this.options.cssClassError)
@@ -439,12 +429,13 @@ class NumberInput {
 
       actualInput.classList.add(this.options.cssClassSuccess)
 
-      if (apply &amp;&amp; maskedValue &amp;&amp; isValid) {
+      if (apply) {
         actualInput.value = maskedValue
         actualInput.dataset.valueUnmasked = unmaskedInput.value
         this.__fireOnUpdate(maskedValue, unmaskedInput.value, actualInput)
       } else {
         unmaskedInput.value = actualInput.dataset.valueUnmasked
+        this.__applyCssClassState(unmaskedInput, actualInput, &apos;success&apos;)
       }
     }
   }
@@ -479,7 +470,10 @@ class NumberInput {
       this.__applyCssClassState(unmaskedInput, actualInput, &apos;success&apos;)
     } else {
       this.__applyCssClassState(unmaskedInput, actualInput, &apos;error&apos;)
-      this.__fireOnInvalid(unmaskedInput.validationMessage || &apos;Validity check fails&apos;, actualInput)
+      this.__fireOnInvalid(
+        unmaskedInput.validationMessage || &apos;Validity check fails&apos;,
+        actualInput
+      )
     }
 
     return isValid
@@ -494,11 +488,7 @@ class NumberInput {
    */
   __fireOnUpdate(valueMasked, valueUnmasked, input) {
     if (this.options.onUpdate) {
-      this.options.onUpdate(
-        valueMasked,
-        valueUnmasked,
-        input
-      )
+      this.options.onUpdate(valueMasked, valueUnmasked, input)
     }
   }
 

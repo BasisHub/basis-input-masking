@@ -130,7 +130,7 @@ describe('#NumberInput', () => {
             unmaskedInput.blur()
             expect(unmaskedInput.getAttribute('type')).to.equal('hidden')
             done()
-          }, 0)
+          }, 250)
         })
 
         it(`its name ends with "unmasked"`, () => {

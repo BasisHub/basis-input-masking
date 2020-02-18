@@ -1190,9 +1190,9 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-bbj-masks@BasisHub/bbj-masks:
-  version "1.1.0"
-  resolved "https://codeload.github.com/BasisHub/bbj-masks/tar.gz/b76affd40133fe92204c38ecda6c8de70b3aea9d"
+"bbj-masks@https://github.com/BasisHub/bbj-masks#1.1.1":
+  version "1.1.1"
+  resolved "https://github.com/BasisHub/bbj-masks#2686e09a9be37adad4b2e7a1cd59842e9a40f424"
   dependencies:
     date-fns "^2.8.1"
     date-fns-tz "^1.0.8"

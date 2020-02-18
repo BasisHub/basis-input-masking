@@ -1,0 +1,9 @@
+files:
+  - package.json
+plugins:
+  postrelease: 
+    Generating CHANGELOG file:
+      plugin: bumped-changelog
+      options:
+        preset: 'angular'
+        filename: ./CHANGELOG.md    

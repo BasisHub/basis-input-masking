@@ -305,7 +305,8 @@ class TextInput {
 
     let value = input.value,
       keyCode = e.keyCode,
-      key = e.key ? (e.key.length &gt; 1 ? &apos;&apos; : e.key) : &apos;&apos;,
+      keyContent = e.key || e.code.replace(/[^0-9]/g, &apos;&apos;),
+      key = keyContent ? (keyContent.length &gt; 1 ? &apos;&apos; : keyContent) : &apos;&apos;,
       insertPosition = findCaretPosition(value, mask),
       newValue,
       unmaskedValue,

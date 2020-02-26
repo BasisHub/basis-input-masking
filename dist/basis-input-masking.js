@@ -390,7 +390,8 @@ function () {
       input.setCustomValidity('');
       var value = input.value,
           keyCode = e.keyCode,
-          key = e.key ? e.key.length > 1 ? '' : e.key : '',
+          keyContent = e.key || e.code.replace(/[^0-9]/g, ''),
+          key = keyContent ? keyContent.length > 1 ? '' : keyContent : '',
           insertPosition = Object(__WEBPACK_IMPORTED_MODULE_1__tools_js__["a" /* findCaretPosition */])(value, mask),
           newValue,
           unmaskedValue,

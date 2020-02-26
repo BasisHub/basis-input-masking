@@ -1140,7 +1140,6 @@ function () {
     key: "_unmaskedInputHandler",
     value: function _unmaskedInputHandler(e) {
       var unmaskedInput = e.target,
-          type = e.type,
           keyCode = e.keyCode,
           mask = unmaskedInput.dataset.mask,
           groupingSeparator = unmaskedInput.dataset.groupingSeparator,

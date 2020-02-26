@@ -341,7 +341,6 @@ class NumberInput {
    */
   _unmaskedInputHandler(e) {
     const unmaskedInput = e.target,
-      type = e.type,
       keyCode = e.keyCode,
       mask = unmaskedInput.dataset.mask,
       groupingSeparator = unmaskedInput.dataset.groupingSeparator,

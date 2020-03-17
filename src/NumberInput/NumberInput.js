@@ -281,25 +281,30 @@ class NumberInput {
   /**
    * Unwrap the masked input and remove the value changed listener
    *
-   * @param {HTMLSpanElement} textInput the wrapper span instance
+   * @param {HTMLSpanElement} wrapper the wrapper span instance
    *
    * @protected
    */
-  _unwrap(textInput) {
-    textInput.removeChild(
-      textInput.querySelector('.numberInputMask__unmaskedInput')
-    )
+  _unwrap(wrapper) {
+    const actualInput = wrapper.querySelector('.numberInputMask__textInput'),
+      actualInputId = actualInput.id,
+      unmaskedInput = wrapper.querySelector(`#${actualInputId}-unmasked`)
 
-    const input = textInput.querySelector('.numberInputMask__textInput')
-    input.removeEventListener('click', this._actualInputHandler)
-    input.removeEventListener('focusin', this._actualInputHandler)
-    input.classList.remove('numberInputMask__textInput')
-    input.classList.remove(this.options.cssClassError)
-    input.classList.remove(this.options.cssClassSuccess)
-    delete input.dataset.valueUnmasked
+    unmaskedInput.removeEventListener('keyup', this._unmaskedInputHandler)
+    unmaskedInput.removeEventListener('keypress', this._unmaskedInputHandler)
+    unmaskedInput.removeEventListener('focusout', this._unmaskedInputHandler)
 
-    textInput.parentNode.insertBefore(input, textInput)
-    textInput.parentNode.removeChild(textInput)
+    wrapper.removeChild(unmaskedInput)
+
+    actualInput.removeEventListener('click', this._actualInputHandler)
+    actualInput.removeEventListener('focusin', this._actualInputHandler)
+    actualInput.classList.remove('numberInputMask__textInput')
+    actualInput.classList.remove(this.options.cssClassError)
+    actualInput.classList.remove(this.options.cssClassSuccess)
+    delete actualInput.dataset.valueUnmasked
+
+    wrapper.parentNode.insertBefore(actualInput, wrapper)
+    wrapper.parentNode.removeChild(wrapper)
   }
 
   /**

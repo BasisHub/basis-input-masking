@@ -1,3 +1,13 @@
+## [1.0.1](https://github.com/BasisHub/basis-input-masking/compare/v1.0.0...v1.0.1) (2020-03-18)
+
+
+### Bug Fixes
+
+* add polyfill for KeyboardEvents.key ([62d6d58](https://github.com/BasisHub/basis-input-masking/commit/62d6d587d45cc490362107c8cf2753f0aa3c5e2d))
+* Number destroy throw an error when inputs are removed ([c12232c](https://github.com/BasisHub/basis-input-masking/commit/c12232c44f790bc5f87db4a5effa6eac00ea4520))
+
+
+
 # 1.0.0 (2020-02-18)
 
 

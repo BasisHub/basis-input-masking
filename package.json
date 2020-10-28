@@ -29,7 +29,7 @@
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
     "formdata-polyfill": "^3.0.19",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "karma": "^4.4.1",
     "karma-babel-preprocessor": "^8.0.1",
     "karma-chai": "^0.1.0",

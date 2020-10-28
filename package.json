@@ -55,6 +55,6 @@
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "dependencies": {
-    "bbj-masks": "https://github.com/BasisHub/bbj-masks#1.1.1"
+    "bbj-masks": "https://github.com/BasisHub/bbj-masks#v1.1.1"
   }
 }

@@ -287,8 +287,8 @@ function () {
           unmaskInput = null;
 
       if (!isWrapped) {
-        wrap = this.options.doc.createElement('span');
-        unmaskInput = this.options.doc.createElement('input'); // hidden input with the unmasked values for forms
+        wrap = document.createElement('span');
+        unmaskInput = document.createElement('input'); // hidden input with the unmasked values for forms
       } else {
         wrap = input.parentNode;
         unmaskInput = wrap.querySelector('.textInputMask__unmaskedInput');

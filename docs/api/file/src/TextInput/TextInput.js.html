@@ -202,8 +202,8 @@ class TextInput {
       unmaskInput = null
 
     if (!isWrapped) {
-      wrap = this.options.doc.createElement(&apos;span&apos;)
-      unmaskInput = this.options.doc.createElement(&apos;input&apos;) // hidden input with the unmasked values for forms
+      wrap = document.createElement(&apos;span&apos;)
+      unmaskInput = document.createElement(&apos;input&apos;) // hidden input with the unmasked values for forms
     } else {
       wrap = input.parentNode
       unmaskInput = wrap.querySelector(&apos;.textInputMask__unmaskedInput&apos;)

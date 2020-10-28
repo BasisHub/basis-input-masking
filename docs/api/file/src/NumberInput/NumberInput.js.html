@@ -325,25 +325,30 @@ class NumberInput {
   /**
    * Unwrap the masked input and remove the value changed listener
    *
-   * @param {HTMLSpanElement} textInput the wrapper span instance
+   * @param {HTMLSpanElement} wrapper the wrapper span instance
    *
    * @protected
    */
-  _unwrap(textInput) {
-    textInput.removeChild(
-      textInput.querySelector(&apos;.numberInputMask__unmaskedInput&apos;)
-    )
+  _unwrap(wrapper) {
+    const actualInput = wrapper.querySelector(&apos;.numberInputMask__textInput&apos;),
+      actualInputId = actualInput.id,
+      unmaskedInput = wrapper.querySelector(`#${actualInputId}-unmasked`)
 
-    const input = textInput.querySelector(&apos;.numberInputMask__textInput&apos;)
-    input.removeEventListener(&apos;click&apos;, this._actualInputHandler)
-    input.removeEventListener(&apos;focusin&apos;, this._actualInputHandler)
-    input.classList.remove(&apos;numberInputMask__textInput&apos;)
-    input.classList.remove(this.options.cssClassError)
-    input.classList.remove(this.options.cssClassSuccess)
-    delete input.dataset.valueUnmasked
+    unmaskedInput.removeEventListener(&apos;keyup&apos;, this._unmaskedInputHandler)
+    unmaskedInput.removeEventListener(&apos;keypress&apos;, this._unmaskedInputHandler)
+    unmaskedInput.removeEventListener(&apos;focusout&apos;, this._unmaskedInputHandler)
 
-    textInput.parentNode.insertBefore(input, textInput)
-    textInput.parentNode.removeChild(textInput)
+    wrapper.removeChild(unmaskedInput)
+
+    actualInput.removeEventListener(&apos;click&apos;, this._actualInputHandler)
+    actualInput.removeEventListener(&apos;focusin&apos;, this._actualInputHandler)
+    actualInput.classList.remove(&apos;numberInputMask__textInput&apos;)
+    actualInput.classList.remove(this.options.cssClassError)
+    actualInput.classList.remove(this.options.cssClassSuccess)
+    delete actualInput.dataset.valueUnmasked
+
+    wrapper.parentNode.insertBefore(actualInput, wrapper)
+    wrapper.parentNode.removeChild(wrapper)
   }
 
   /**

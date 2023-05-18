@@ -1,3 +1,7 @@
+## [1.1.1](https://github.com/BasisHub/basis-input-masking/compare/v1.1.0...v1.1.1) (2023-05-18)
+
+
+
 ## [1.0.1](https://github.com/BasisHub/basis-input-masking/compare/v1.0.0...v1.0.1) (2020-03-18)
 
 

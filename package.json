@@ -2,7 +2,7 @@
   "name": "basis-input-masking",
   "description": "A small javascript library to force inputs masking using BBj supported masks",
   "main": "src/index.js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": false,
   "scripts": {
     "watch": "./node_modules/.bin/webpack --watch --progress",
